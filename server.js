@@ -9,7 +9,14 @@ import connectToDb from "./config/connectToDB.js"
 import bookingRouter from "./router/bookingRouter.js"
 
 app.use(express.json())
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: "*",   // or your real frontend URL
+  methods: ["GET", "POST"],
+  credentials: true
+}))
+
 const PORT = process.env.PORT
 
 app.listen(PORT,() =>{
