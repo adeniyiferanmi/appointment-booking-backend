@@ -11,11 +11,7 @@ import bookingRouter from "./router/bookingRouter.js"
 app.use(express.json())
 // app.use(cors());
 
-app.use(cors({
-  origin: "*",   // or your real frontend URL
-  methods: ["GET", "POST"],
-  credentials: true
-}))
+app.use(cors())
 
 const PORT = process.env.PORT
 
