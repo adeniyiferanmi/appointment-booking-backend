@@ -7,11 +7,14 @@ dotenv.config()
 
 import connectToDb from "./config/connectToDB.js"
 import bookingRouter from "./router/bookingRouter.js"
+import morgan from "morgan"
 
 app.use(express.json())
 // app.use(cors());
 
 app.use(cors())
+app.use(morgan("dev"))
+
 
 const PORT = process.env.PORT
 

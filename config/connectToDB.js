@@ -7,7 +7,6 @@ const mongoDbUri = process.env.MONGODB_URI.replace("<db_password>",password)
 
 const connectToDb = async () => {
     try {
-        console.log(mongoDbUri);
         
         const connected = await mongoose.connect(mongoDbUri)
         if (connected) {

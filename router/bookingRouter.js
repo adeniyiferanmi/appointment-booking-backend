@@ -1,6 +1,8 @@
 import { Router } from "express";
-import bookingDetails from "../controller/bookingController.js";
+import { bookingDetails, sendBookingEmail } from "../controller/bookingController.js";
+// import bookingDetails from "../controller/bookingController.js";
 const bookingRouter = Router()
 
 bookingRouter.post("/",bookingDetails)
+bookingRouter.get("/:bookingsId",sendBookingEmail)
 export default bookingRouter
