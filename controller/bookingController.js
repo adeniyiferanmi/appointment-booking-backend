@@ -1,9 +1,5 @@
 import bookingModel from "../model/bookingModel.js";
-import { MailtrapClient } from "mailtrap";
-
-const TOKEN = process.env.MAILTRAP_API_TOKEN;
-const ACCOUNT_ID = process.env.MAILTRAP_INBOX_ID
-const client = new MailtrapClient({ token: TOKEN,accountId:Number(ACCOUNT_ID )});
+import nodemailer from "nodemailer";
 
 export const bookingDetails = async (req, res) => {
   try {
@@ -57,40 +53,42 @@ export const sendBookingEmail = async (req, res) => {
         message: "no bookings found",
       });
     }
-    const sender = {
-      email: "adeniyiferanmi2024@gmail.com",
-      name: "Limadollz Beauty world",
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const clientMail = {
+      from: `"Limadollz beauty world"<${process.env.EMAIL_USER}>`,
+      to: bookingDetails.email,
+      subject: "APPOINTMENT CONFIRMED!✨",
+      html: `<h1>Hi ${bookingDetails.fullName}, your booking is set!</h1>
+    <p>Your session for <b>${bookingDetails.service}</b> is booked for ${bookingDetails.num} ${bookingDetails.day} ${bookingDetails.month}  at ${bookingDetails.time}.</p>`,
+    };
+    const adminMail = {
+      from: `"Booking System"<${process.env.EMAIL_USER}>`,
+      to: "adeniyiferanmielizabeth@gmail.com",
+      subject: "🚨 NEW APPOINTMENT BOOKED",
+      html: `<h2>New Booking Received!</h2>
+             <ul>
+               <li><b>Client:</b> ${bookingDetails.fullName}</li>
+               <li><b>Phone Number:</b> ${bookingDetails.phoneNumber}</li>
+               <li><b>Service:</b> ${bookingDetails.service}</li>
+               <li><b>Phone:</b> ${bookingDetails.phoneNumber}</li>
+               <li><b>Time:</b> ${bookingDetails.num} ${bookingDetails.day} ${bookingDetails.month} at ${bookingDetails.time}</li>
+               <li><b>Message:</b> ${bookingDetails.message}</li>
+               
+             </ul>`,
     };
 
-    await client.send({
-      from: sender,
-      to: [{ email: email }],
-      subject: "Your Appointment is Confirmed",
-      html: `
-      <h1>Hi ${bookingDetails.name}, your booking is set!</h1>
-      <ul>
-        <li><b>Client:</b> ${bookingDetails.name}</li>
-        <li><b>Service:</b> ${bookingDetails.service}</li>
-        <li><b>Time:</b> ${bookingDetails.date} at ${bookingDetails.time}</li>
-        <li><b>Phone:</b> ${bookingDetails.phone}</li>
-      </ul>
-    `,
-    });
-    await client.send({
-      from: sender,
-      to: [{ email: "adeniyiferanmielizabeth@gmail.com" }],
-      subject: "🚨 NEW APPOINTMENT BOOKED",
-      html: `
-      <h2>New Booking Details:</h2>
-      <ul>
-        <li><b>Client:</b> ${bookingDetails.name}</li>
-        <li><b>Service:</b> ${bookingDetails.service}</li>
-        <li><b>Time:</b> ${bookingDetails.date} at ${bookingDetails.time}</li>
-        <li><b>Phone:</b> ${bookingDetails.phone}</li>
-      </ul>
-      <p>Check your dashboard for more details.</p>
-    `,
-    });
+    await Promise.all([
+      transporter.sendMail(clientMail),
+      transporter.sendMail(adminMail),
+    ]);
+  
     res.status(200).json({
       status: "success",
       message: "Emails sent successfully using database details!",
