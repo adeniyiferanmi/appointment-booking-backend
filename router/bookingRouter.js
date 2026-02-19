@@ -4,5 +4,5 @@ import { bookingDetails, sendBookingEmail } from "../controller/bookingControlle
 const bookingRouter = Router()
 
 bookingRouter.post("/",bookingDetails)
-bookingRouter.get("/:bookingsId",sendBookingEmail)
+bookingRouter.post("/send-email/:bookingsId",sendBookingEmail)
 export default bookingRouter
