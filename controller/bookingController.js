@@ -89,11 +89,11 @@ export const sendBookingEmail = async (req, res) => {
       transporter.sendMail(adminMail),
     ]);
   
-    res.status(200).json({
-      status: "success",
-      message: "Emails sent successfully using database details!",
-      bookingDetails,
-    });
+    // res.status(200).json({
+    //   status: "success",
+    //   message: "Emails sent successfully using database details!",
+    //   bookingDetails,
+    // });
   } catch (error) {
     console.log(error);
   }
