@@ -63,6 +63,7 @@ export const sendBookingEmail = async (req, res, next) => {
       // port: 465,
       host: "74.125.142.108",
       port: 465,
+      family:4,
       secure: true,
       auth: {
         user: process.env.EMAIL_USER,
