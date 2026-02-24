@@ -9,7 +9,7 @@ import bookingRouter from "./router/bookingRouter.js";
 import morgan from "morgan";
 import errorHandler from "./middleware/errorhandler.js";
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 // app.use(
 //   cors({
