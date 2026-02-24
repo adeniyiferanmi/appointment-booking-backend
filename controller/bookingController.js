@@ -1,5 +1,7 @@
 import bookingModel from "../model/bookingModel.js";
 import nodemailer from "nodemailer";
+import dns from "node:dns";
+dns.setDefaultResultOrder("ipv4first");
 
 export const bookingDetails = async (req, res, next) => {
   try {
@@ -57,20 +59,20 @@ export const sendBookingEmail = async (req, res, next) => {
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      host: "smtp.gmail.com", 
-      port: 465, 
+      // host: "smtp.gmail.com",
+      // port: 465,
+      host: "74.125.142.108",
+      port: 465,
       secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
-    // This helps bypass some network restrictions on cloud hosts
-    rejectUnauthorized: false,
-    minVersion: "TLSv1.2"
-  },
-  connectionTimeout: 20000, // Give it 20 seconds to wake up
-
+        servername: "smtp.gmail.com",
+        rejectUnauthorized: false,
+      },
+      connectionTimeout: 10000,
     });
     const clientMail = {
       from: `"Limadollz beauty world"<${process.env.EMAIL_USER}>`,
