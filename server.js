@@ -22,7 +22,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome to appointment booking website" });
+  res.status(200).json({ message: "Welcome to Limadollz beauty salon" });
 });
 
 connectToDb();
