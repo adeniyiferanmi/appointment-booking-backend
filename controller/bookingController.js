@@ -1,7 +1,7 @@
 import bookingModel from "../model/bookingModel.js";
 import nodemailer from "nodemailer";
 
-export const bookingDetails = async (req, res,next) => {
+export const bookingDetails = async (req, res, next) => {
   try {
     console.log(req.body);
 
@@ -27,7 +27,7 @@ export const bookingDetails = async (req, res,next) => {
     });
   } catch (error) {
     console.log(error);
-    next(error)
+    next(error);
     res.status(500).json({
       status: "error",
       message: "Internal server error",
@@ -35,7 +35,7 @@ export const bookingDetails = async (req, res,next) => {
   }
 };
 
-export const sendBookingEmail = async (req, res,next) => {
+export const sendBookingEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const { bookingsId } = req.params;
@@ -57,9 +57,15 @@ export const sendBookingEmail = async (req, res,next) => {
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: "smtp.gmail.com", 
+      port: 465, 
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
     const clientMail = {
@@ -89,14 +95,14 @@ export const sendBookingEmail = async (req, res,next) => {
       transporter.sendMail(clientMail),
       transporter.sendMail(adminMail),
     ]);
-  
+
     res.status(200).json({
       status: "success",
       message: "Emails sent successfully using database details!",
       bookingDetails,
     });
   } catch (error) {
-    next(error)
+    next(error);
     console.log(error);
   }
 };
