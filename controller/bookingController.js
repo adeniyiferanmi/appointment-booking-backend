@@ -57,17 +57,20 @@ export const sendBookingEmail = async (req, res, next) => {
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      host: "smtp.gmail.com",
-      port: 465,
+      host: "smtp.gmail.com", 
+      port: 465, 
       secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      dnsTimeout: 10000,
+      tls: {
+    // This helps bypass some network restrictions on cloud hosts
+    rejectUnauthorized: false,
+    minVersion: "TLSv1.2"
+  },
+  connectionTimeout: 20000, // Give it 20 seconds to wake up
+
     });
     const clientMail = {
       from: `"Limadollz beauty world"<${process.env.EMAIL_USER}>`,
