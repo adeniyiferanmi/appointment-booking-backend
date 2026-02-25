@@ -33,6 +33,7 @@ export const bookingDetails = async (req, res, next) => {
     res.status(500).json({
       status: "error",
       message: "Internal server error",
+      error: error.message
     });
   }
 };
