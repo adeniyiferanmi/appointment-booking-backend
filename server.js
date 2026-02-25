@@ -51,7 +51,7 @@ connectToDb();
 
 app.use("/booking", bookingRouter);
 
-app.use("/{*any}", errorHandler)
+app.use("*", errorHandler)
 
 
 export default app;
