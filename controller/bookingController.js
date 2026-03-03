@@ -1,4 +1,4 @@
-import bookingModel from "../model/bookingModel.js";
+///import bookingModel from "../model/bookingModel.js";
 import nodemailer from "nodemailer";
 import dns from "node:dns";
 dns.setDefaultResultOrder("ipv4first");
@@ -85,7 +85,7 @@ export const sendBookingEmail = async (req, res, next) => {
     };
     const adminMail = {
       from: `"Booking System"<${process.env.EMAIL_USER}>`,
-      to: "adeniyiferanmielizabeth@gmail.com",
+      to: "Limadollzbeautyworld1@gmail.com",
       subject: "🚨 NEW APPOINTMENT BOOKED",
       html: `<h2>New Booking Received!</h2>
              <ul>
