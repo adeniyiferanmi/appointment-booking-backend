@@ -1,4 +1,4 @@
-///import bookingModel from "../model/bookingModel.js";
+import bookingModel from "../model/bookingModel.js";
 import nodemailer from "nodemailer";
 import dns from "node:dns";
 dns.setDefaultResultOrder("ipv4first");
@@ -30,11 +30,7 @@ export const bookingDetails = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
-    res.status(500).json({
-      status: "error",
-      message: "Internal server error",
-      error: error.message
-    });
+
   }
 };
 
